@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, ArrowLeft } from "lucide-react"
+import { Calendar, Clock, ArrowLeft, Rss } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -75,9 +75,19 @@ export default function Blog() {
       <div className="container">
         <div className="text-center mb-12 animate-on-scroll">
           <h2 className="section-title">وبلاگ و مقالات</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-4">
             در این بخش، مقالات و آموزش‌هایی در زمینه برنامه‌نویسی، تکنولوژی‌های جدید و تجربیات شخصی خود منتشر می‌کنم.
           </p>
+
+          {/* RSS Feed Link */}
+          <div className="flex justify-center">
+            <Button variant="outline" size="sm" asChild className="gap-2">
+              <Link href="/feed.xml" target="_blank">
+                <Rss className="h-4 w-4" />
+                RSS Feed
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -92,6 +102,7 @@ export default function Blog() {
                   alt={post.title}
                   fill
                   className="object-cover transition-transform duration-300 hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute top-4 right-4">
                   <Badge variant="secondary" className="bg-background/80 backdrop-blur">

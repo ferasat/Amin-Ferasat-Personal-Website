@@ -55,6 +55,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    overflow-x: hidden;
   }
 
   /* تنظیمات RTL */
@@ -72,7 +74,8 @@
   }
 
   section {
-    @apply py-16 px-4 md:px-8;
+    @apply py-8 px-4 md:py-16 md:px-8;
+    position: relative;
   }
 
   .container {
@@ -80,7 +83,123 @@
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl mb-8 text-center;
+    @apply text-2xl md:text-3xl lg:text-4xl mb-6 md:mb-8 text-center;
+  }
+
+  /* بهینه‌سازی موبایل */
+  @media (max-width: 768px) {
+    .container {
+      @apply px-4;
+    }
+
+    section {
+      @apply py-6 px-3;
+    }
+
+    .section-title {
+      @apply text-xl mb-4;
+    }
+  }
+}
+
+/* بک‌گراند متحرک */
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    rgba(59, 130, 246, 0.03) 0%,
+    rgba(147, 51, 234, 0.02) 50%,
+    rgba(59, 130, 246, 0.03) 100%
+  );
+  border-radius: 50%;
+  animation: wave-float 20s ease-in-out infinite;
+}
+
+.wave:nth-child(1) {
+  top: -50%;
+  left: -50%;
+  animation-delay: 0s;
+}
+
+.wave:nth-child(2) {
+  top: -30%;
+  right: -50%;
+  animation-delay: -7s;
+  animation-duration: 25s;
+}
+
+.wave:nth-child(3) {
+  bottom: -50%;
+  left: -30%;
+  animation-delay: -14s;
+  animation-duration: 30s;
+}
+
+.geometric-pattern {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0.02;
+  animation: float-pattern 15s ease-in-out infinite;
+}
+
+.pattern-1 {
+  top: 10%;
+  left: 10%;
+  background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+  border-radius: 20px;
+  animation-delay: 0s;
+}
+
+.pattern-2 {
+  top: 60%;
+  right: 15%;
+  background: linear-gradient(135deg, transparent 30%, rgba(147, 51, 234, 0.1) 50%, transparent 70%);
+  border-radius: 50%;
+  animation-delay: -5s;
+}
+
+.pattern-3 {
+  bottom: 20%;
+  left: 20%;
+  background: linear-gradient(90deg, transparent 30%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+  border-radius: 10px;
+  animation-delay: -10s;
+}
+
+@keyframes wave-float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+}
+
+@keyframes float-pattern {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) translateX(5px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(5px) translateX(-5px) rotate(240deg);
   }
 }
 
@@ -235,4 +354,80 @@
 
 .btn-animate:hover::before {
   left: 100%;
+}
+
+/* بهینه‌سازی موبایل */
+@media (max-width: 640px) {
+  .wave {
+    width: 300%;
+    height: 300%;
+  }
+
+  .geometric-pattern {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* استایل‌های مقاله */
+.article-content {
+  @apply prose prose-lg max-w-none;
+  @apply prose-headings:text-foreground prose-p:text-muted-foreground;
+  @apply prose-a:text-primary prose-strong:text-foreground;
+  @apply prose-code:text-primary prose-pre:bg-muted;
+  direction: rtl;
+  text-align: right;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  @apply font-bold mt-8 mb-4;
+}
+
+.article-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.article-content ul,
+.article-content ol {
+  @apply mr-6 mb-4;
+}
+
+.article-content li {
+  @apply mb-2;
+}
+
+.article-content blockquote {
+  @apply border-r-4 border-primary pr-4 mr-4 italic text-muted-foreground;
+}
+
+.article-content code {
+  @apply bg-muted px-2 py-1 rounded text-sm;
+}
+
+.article-content pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto;
+}
+
+/* بهینه‌سازی موبایل برای مقالات */
+@media (max-width: 768px) {
+  .article-content {
+    @apply prose-sm;
+  }
+
+  .article-content h1 {
+    @apply text-2xl;
+  }
+
+  .article-content h2 {
+    @apply text-xl;
+  }
+
+  .article-content h3 {
+    @apply text-lg;
+  }
 }

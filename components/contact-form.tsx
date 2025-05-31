@@ -41,38 +41,46 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
-      <div className="container">
+    <section className="py-8 md:py-16 bg-gradient-to-b from-muted/30 to-background">
+      <div className="container px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8 animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">آماده شروع پروژه جدید هستید؟</h2>
-            <p className="text-muted-foreground">برای مشاوره رایگان و دریافت قیمت پروژه خود، فرم زیر را پر کنید.</p>
+          <div className="text-center mb-6 md:mb-8 animate-on-scroll">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">آماده شروع پروژه جدید هستید؟</h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              برای مشاوره رایگان و دریافت قیمت پروژه خود، فرم زیر را پر کنید.
+            </p>
           </div>
 
           <Card className="card-hover animate-on-scroll animate-delay-200">
-            <CardHeader className="text-center">
-              <CardTitle className="flex items-center justify-center gap-2">
-                <Send className="h-5 w-5 text-primary" />
+            <CardHeader className="text-center p-4 md:p-6">
+              <CardTitle className="flex items-center justify-center gap-2 text-lg md:text-xl">
+                <Send className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                 فرم تماس سریع
               </CardTitle>
-              <CardDescription>در کمتر از ۲۴ ساعت پاسخ شما را خواهیم داد</CardDescription>
+              <CardDescription className="text-sm md:text-base">
+                در کمتر از ۲۴ ساعت پاسخ شما را خواهیم داد
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-4">
+            <CardContent className="p-4 md:p-6">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">نام و نام خانوادگی *</Label>
+                    <Label htmlFor="name" className="text-sm">
+                      نام و نام خانوادگی *
+                    </Label>
                     <Input
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="transition-all focus:scale-105"
+                      className="transition-all focus:scale-105 text-sm"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">ایمیل *</Label>
+                    <Label htmlFor="email" className="text-sm">
+                      ایمیل *
+                    </Label>
                     <Input
                       id="email"
                       name="email"
@@ -80,13 +88,15 @@ export default function ContactForm() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="transition-all focus:scale-105"
+                      className="transition-all focus:scale-105 text-sm"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">موضوع پروژه *</Label>
+                  <Label htmlFor="subject" className="text-sm">
+                    موضوع پروژه *
+                  </Label>
                   <Input
                     id="subject"
                     name="subject"
@@ -94,21 +104,23 @@ export default function ContactForm() {
                     onChange={handleChange}
                     required
                     placeholder="مثال: طراحی فروشگاه آنلاین"
-                    className="transition-all focus:scale-105"
+                    className="transition-all focus:scale-105 text-sm"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">توضیحات پروژه *</Label>
+                  <Label htmlFor="message" className="text-sm">
+                    توضیحات پروژه *
+                  </Label>
                   <Textarea
                     id="message"
                     name="message"
-                    rows={5}
+                    rows={4}
                     value={formData.message}
                     onChange={handleChange}
                     required
                     placeholder="لطفاً جزئیات پروژه خود را شرح دهید..."
-                    className="transition-all focus:scale-105"
+                    className="transition-all focus:scale-105 text-sm resize-none"
                   />
                 </div>
 
@@ -127,8 +139,10 @@ export default function ContactForm() {
                 </Button>
 
                 {submitMessage && (
-                  <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg animate-scaleIn">
-                    <p className="text-green-700 dark:text-green-300 font-medium">{submitMessage}</p>
+                  <div className="text-center p-3 md:p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg animate-scaleIn">
+                    <p className="text-green-700 dark:text-green-300 font-medium text-sm md:text-base">
+                      {submitMessage}
+                    </p>
                   </div>
                 )}
               </form>
