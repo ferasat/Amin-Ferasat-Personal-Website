@@ -19,12 +19,17 @@ interface ServiceSchemaProps {
 }
 
 export default function ServiceSchema({ services, provider }: ServiceSchemaProps) {
+  // بررسی وجود داده‌های ضروری
+  if (!services || !Array.isArray(services) || services.length === 0 || !provider) {
+    return null
+  }
+
   const serviceData = services.map((service) => ({
     "@context": "https://schema.org",
     "@type": "Service",
-    name: service.name,
-    description: service.description,
-    category: service.category,
+    name: service.name || "خدمات برنامه‌نویسی",
+    description: service.description || "توضیحات خدمات",
+    category: service.category || "Web Development",
     offers: {
       "@type": "Offer",
       price: service.price || "قیمت بر اساس پروژه",
@@ -34,16 +39,20 @@ export default function ServiceSchema({ services, provider }: ServiceSchemaProps
     },
     provider: {
       "@type": "Person",
-      name: provider.name,
-      url: provider.url,
-      telephone: provider.telephone,
-      address: provider.address,
+      name: provider.name || "نام برنامه‌نویس",
+      url: provider.url || "https://example.com",
+      telephone: provider.telephone || "+989123456789",
+      address: provider.address || {
+        "@type": "PostalAddress",
+        addressLocality: "تهران",
+        addressCountry: "ایران",
+      },
     },
     areaServed: {
       "@type": "Country",
       name: "ایران",
     },
-    serviceType: service.category,
+    serviceType: service.category || "Web Development",
     hoursAvailable: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],

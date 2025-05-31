@@ -36,6 +36,11 @@ export default function LocalSEO({
   socialMedia,
   coordinates,
 }: LocalSEOProps) {
+  // بررسی وجود داده‌های ضروری
+  if (!businessName || !address || !phone || !email || !website) {
+    return null
+  }
+
   // Local Business Schema
   const localBusinessData = {
     "@context": "https://schema.org",
@@ -47,11 +52,11 @@ export default function LocalSEO({
     email: email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: address.street,
-      addressLocality: address.city,
-      addressRegion: address.state,
-      postalCode: address.postalCode,
-      addressCountry: address.country,
+      streetAddress: address.street || "",
+      addressLocality: address.city || "تهران",
+      addressRegion: address.state || "تهران",
+      postalCode: address.postalCode || "",
+      addressCountry: address.country || "ایران",
     },
     geo: coordinates
       ? {
@@ -59,12 +64,16 @@ export default function LocalSEO({
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
         }
-      : undefined,
-    openingHoursSpecification: Object.entries(workingHours).map(([day, hours]) => ({
+      : {
+          "@type": "GeoCoordinates",
+          latitude: 35.6892,
+          longitude: 51.389,
+        },
+    openingHoursSpecification: Object.entries(workingHours || {}).map(([day, hours]) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: day,
-      opens: hours.split("-")[0],
-      closes: hours.split("-")[1],
+      opens: hours.split("-")[0] || "09:00",
+      closes: hours.split("-")[1] || "18:00",
     })),
     serviceArea: {
       "@type": "GeoCircle",
@@ -88,7 +97,7 @@ export default function LocalSEO({
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "خدمات برنامه‌نویسی",
-      itemListElement: services.map((service, index) => ({
+      itemListElement: (services || []).map((service, index) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
@@ -97,7 +106,7 @@ export default function LocalSEO({
         position: index + 1,
       })),
     },
-    sameAs: Object.values(socialMedia),
+    sameAs: Object.values(socialMedia || {}),
     priceRange: "$$",
     currenciesAccepted: "IRR",
     paymentAccepted: "Cash, Credit Card, Bank Transfer",

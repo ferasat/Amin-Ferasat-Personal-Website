@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { getSiteUrl } from "@/lib/utils"
 
 // Mock data - در پروژه واقعی از دیتابیس استفاده کنید
 const blogPosts = [
@@ -59,7 +60,7 @@ const blogPosts = [
 ]
 
 export async function GET() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const siteUrl = getSiteUrl()
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" 

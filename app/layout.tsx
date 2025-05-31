@@ -6,16 +6,20 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ScrollAnimationProvider from "@/components/scroll-animation-provider"
 import AnimatedBackground from "@/components/animated-background"
-import StructuredData from "@/components/structured-data"
+import EnhancedStructuredData from "@/components/enhanced-structured-data"
 import Analytics from "@/components/analytics"
 import PerformanceMonitor from "@/components/performance-monitor"
 import CookieConsent from "@/components/cookie-consent"
+import SchemaValidator from "@/components/schema-validator"
 import { Suspense } from "react"
+import { getSiteUrl } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
+const SITE_URL = getSiteUrl()
+
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "وب‌سایت شخصی برنامه‌نویس | توسعه‌دهنده بک‌اند PHP و Laravel",
     template: "%s | وب‌سایت شخصی برنامه‌نویس",
@@ -64,7 +68,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "fa_IR",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    url: SITE_URL,
     siteName: "وب‌سایت شخصی برنامه‌نویس",
     title: "وب‌سایت شخصی برنامه‌نویس | توسعه‌دهنده بک‌اند PHP و Laravel",
     description:
@@ -87,7 +91,7 @@ export const metadata = {
     creator: "@username",
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    canonical: SITE_URL,
     types: {
       "application/rss+xml": [{ url: "/feed.xml", title: "RSS Feed" }],
     },
@@ -102,26 +106,29 @@ export default function RootLayout({
   // Structured Data for Website
   const websiteStructuredData = {
     name: "وب‌سایت شخصی برنامه‌نویس",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    url: SITE_URL,
     description: "برنامه‌نویس بک‌اند متخصص در PHP، Laravel و Livewire",
     author: {
       name: "نام برنامه‌نویس",
-      url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+      url: SITE_URL,
     },
   }
 
   // Structured Data for Person
   const personStructuredData = {
     name: "نام برنامه‌نویس",
+    givenName: "نام",
+    familyName: "نام خانوادگی",
     jobTitle: "برنامه‌نویس بک‌اند",
     description: "متخصص در PHP، Laravel و Livewire",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    url: SITE_URL,
     image: "/placeholder.svg?height=400&width=400",
     sameAs: ["https://github.com/username", "https://linkedin.com/in/username", "https://twitter.com/username"],
     skills: ["PHP", "Laravel", "Livewire", "MySQL", "JavaScript", "TailwindCSS"],
     organization: "فریلنسر",
     location: {
       city: "تهران",
+      state: "تهران",
       country: "ایران",
     },
     email: "example@example.com",
@@ -131,16 +138,11 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <head>
-        <StructuredData type="website" data={websiteStructuredData} />
-        <StructuredData type="person" data={personStructuredData} />
+        <EnhancedStructuredData type="website" data={websiteStructuredData} validate={true} />
+        <EnhancedStructuredData type="person" data={personStructuredData} validate={true} />
 
         {/* RSS Feed Link */}
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="RSS Feed"
-          href={`${process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"}/feed.xml`}
-        />
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed" href={`${SITE_URL}/feed.xml`} />
 
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
@@ -153,7 +155,10 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <AnimatedBackground />
 
-        {/* Analytics - اضافه کردن Google Analytics ID در صورت وجود */}
+        {/* Schema Validator - فقط در محیط توسعه */}
+        {process.env.NODE_ENV === "development" && <SchemaValidator enabled={true} />}
+
+        {/* Analytics */}
         <Analytics gtmId={process.env.NEXT_PUBLIC_GTM_ID} gtagId={process.env.NEXT_PUBLIC_GA_ID} />
 
         {/* Performance Monitoring */}

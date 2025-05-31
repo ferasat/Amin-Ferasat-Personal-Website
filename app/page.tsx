@@ -9,6 +9,7 @@ import FAQSection from "@/components/faq-section"
 import Contact from "@/components/contact"
 import LocalSEO from "@/components/local-seo"
 import ServiceSchema from "@/components/service-schema"
+import { getSiteUrl } from "@/lib/utils"
 
 export const metadata = {
   title: "خانه",
@@ -23,6 +24,8 @@ export const metadata = {
 }
 
 export default function Home() {
+  const siteUrl = getSiteUrl()
+
   // Local SEO Data
   const localSEOData = {
     businessName: "وب‌سایت شخصی برنامه‌نویس",
@@ -35,7 +38,7 @@ export default function Home() {
     },
     phone: "+989123456789",
     email: "example@example.com",
-    website: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    website: siteUrl,
     services: [
       "طراحی وب‌سایت",
       "توسعه فروشگاه آنلاین",
@@ -97,7 +100,7 @@ export default function Home() {
 
   const providerData = {
     name: "نام برنامه‌نویس",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+    url: siteUrl,
     telephone: "+989123456789",
     address: localSEOData.address,
   }

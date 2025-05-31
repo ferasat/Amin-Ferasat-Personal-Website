@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
 import StructuredData from "@/components/structured-data"
+import { getSiteUrl } from "@/lib/utils"
 
 export const metadata = {
   title: "بلاگ و مقالات",
@@ -25,6 +26,8 @@ export const metadata = {
 }
 
 export default function BlogPage() {
+  const siteUrl = getSiteUrl()
+
   const blogPosts = [
     {
       id: 1,
@@ -94,8 +97,8 @@ export default function BlogPage() {
   // Breadcrumb Structured Data
   const breadcrumbData = {
     items: [
-      { name: "خانه", url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com" },
-      { name: "بلاگ", url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"}/blog` },
+      { name: "خانه", url: siteUrl },
+      { name: "بلاگ", url: `${siteUrl}/blog` },
     ],
   }
 
