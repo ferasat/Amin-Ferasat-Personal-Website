@@ -1,15 +1,12 @@
-import Hero from "@/components/hero"
-import About from "@/components/about"
-import Skills from "@/components/skills"
+import { Suspense } from "react"
+import LightweightAbout from "@/components/performance/lightweight-about"
+import SimpleSkills from "@/components/performance/simple-skills"
 import Projects from "@/components/projects"
 import Services from "@/components/services"
-import Testimonials from "@/components/testimonials"
-import Blog from "@/components/blog"
-import FAQSection from "@/components/faq-section"
 import Contact from "@/components/contact"
-import LocalSEO from "@/components/local-seo"
-import ServiceSchema from "@/components/service-schema"
 import { getSiteUrl } from "@/lib/utils"
+import AdaptiveHero from "@/components/mobile/adaptive-hero"
+import MobilePerformanceTest from "@/components/mobile/mobile-performance-test"
 
 export const metadata = {
   title: "خانه",
@@ -107,17 +104,29 @@ export default function Home() {
 
   return (
     <>
-      <LocalSEO {...localSEOData} />
-      <ServiceSchema services={servicesData} provider={providerData} />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Services />
-      <Testimonials />
-      <Blog />
-      <FAQSection />
-      <Contact />
+      <Suspense fallback={<div className="h-screen flex items-center justify-center">در حال بارگذاری...</div>}>
+        {/* Hero Section با تشخیص خودکار موبایل */}
+        <AdaptiveHero />
+
+        <LightweightAbout />
+        <SimpleSkills />
+
+        {/* لود تنبل بخش‌های سنگین‌تر */}
+        <Suspense fallback={<div className="py-16 text-center">در حال بارگذاری پروژه‌ها...</div>}>
+          <Projects />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-16 text-center">در حال بارگذاری خدمات...</div>}>
+          <Services />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-16 text-center">در حال بارگذاری فرم تماس...</div>}>
+          <Contact />
+        </Suspense>
+
+        {/* کامپوننت تست عملکرد موبایل */}
+        <MobilePerformanceTest />
+      </Suspense>
     </>
   )
 }

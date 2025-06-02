@@ -1,20 +1,22 @@
 import type React from "react"
 import "./globals.css"
+import "./mobile.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ScrollAnimationProvider from "@/components/scroll-animation-provider"
-import AnimatedBackground from "@/components/animated-background"
+import ConditionalBackground from "@/components/mobile/conditional-background"
 import EnhancedStructuredData from "@/components/enhanced-structured-data"
 import Analytics from "@/components/analytics"
 import PerformanceMonitor from "@/components/performance-monitor"
 import CookieConsent from "@/components/cookie-consent"
 import SchemaValidator from "@/components/schema-validator"
+import PWAManager from "@/components/pwa/pwa-manager"
 import { Suspense } from "react"
 import { getSiteUrl } from "@/lib/utils"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], display: "swap", preload: true, variable: "--font-inter" })
 
 const SITE_URL = getSiteUrl()
 
@@ -46,25 +48,17 @@ export const metadata = {
   viewport: {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/icons/icon-192x192.png",
+    apple: "/icons/icon-512x512.png",
   },
-  manifest: "/site.webmanifest",
+  manifest: "/manifest.json",
   openGraph: {
     type: "website",
     locale: "fa_IR",
@@ -95,6 +89,48 @@ export const metadata = {
     types: {
       "application/rss+xml": [{ url: "/feed.xml", title: "RSS Feed" }],
     },
+  },
+  appleWebApp: {
+    title: "وب‌سایت شخصی برنامه‌نویس",
+    statusBarStyle: "black-translucent",
+    startupImage: [
+      {
+        url: "/icons/apple-splash-2048-2732.png",
+        media: "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)",
+      },
+      {
+        url: "/icons/apple-splash-1668-2388.png",
+        media: "(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)",
+      },
+      {
+        url: "/icons/apple-splash-1536-2048.png",
+        media: "(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)",
+      },
+      {
+        url: "/icons/apple-splash-1125-2436.png",
+        media: "(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)",
+      },
+      {
+        url: "/icons/apple-splash-1242-2688.png",
+        media: "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)",
+      },
+      {
+        url: "/icons/apple-splash-828-1792.png",
+        media: "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)",
+      },
+      {
+        url: "/icons/apple-splash-1242-2208.png",
+        media: "(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)",
+      },
+      {
+        url: "/icons/apple-splash-750-1334.png",
+        media: "(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)",
+      },
+      {
+        url: "/icons/apple-splash-640-1136.png",
+        media: "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
+      },
+    ],
   },
 }
 
@@ -136,24 +172,84 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="fa" dir="rtl" className={inter.className}>
       <head>
+        {/* Preload critical assets */}
+        <link rel="preload" href="/fonts/your-persian-font.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* DNS Prefetch */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+        {/* PWA meta tags */}
+        <meta name="application-name" content="وب‌سایت شخصی برنامه‌نویس" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="وب‌سایت شخصی برنامه‌نویس" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#3b82f6" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="theme-color" content="#3b82f6" />
+
+        {/* Apple touch icons */}
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167x167.png" />
+
+        {/* Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Viewport meta tag با تنظیمات بهینه برای موبایل */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+
+        {/* Inline critical CSS */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+          /* Critical CSS here */
+          body { 
+            margin: 0; 
+            font-family: 'Your Persian Font', Tahoma, Arial, sans-serif; 
+            text-size-adjust: 100%; /* جلوگیری از تغییر سایز خودکار فونت در iOS */
+          }
+          .header { 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+          }
+          .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+          section { padding: 2rem 0; }
+          @media (min-width: 768px) { section { padding: 4rem 0; } }
+          
+          /* بهینه‌سازی برای موبایل */
+          @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .container { padding: 0 0.75rem; }
+            section { padding: 1.5rem 0; }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.25rem; }
+          }
+        `,
+          }}
+        />
+
         <EnhancedStructuredData type="website" data={websiteStructuredData} validate={true} />
         <EnhancedStructuredData type="person" data={personStructuredData} validate={true} />
 
         {/* RSS Feed Link */}
         <link rel="alternate" type="application/rss+xml" title="RSS Feed" href={`${SITE_URL}/feed.xml`} />
-
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-
-        {/* DNS Prefetch */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       </head>
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <AnimatedBackground />
+      <body className="min-h-screen flex flex-col">
+        {/* بک‌گراند متحرک که فقط در دسکتاپ نمایش داده می‌شود */}
+        <ConditionalBackground />
 
         {/* Schema Validator - فقط در محیط توسعه */}
         {process.env.NODE_ENV === "development" && <SchemaValidator enabled={true} />}
@@ -163,6 +259,9 @@ export default function RootLayout({
 
         {/* Performance Monitoring */}
         <PerformanceMonitor />
+
+        {/* PWA Manager */}
+        <PWAManager />
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ScrollAnimationProvider>

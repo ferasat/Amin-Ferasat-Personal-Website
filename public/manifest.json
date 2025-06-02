@@ -1,0 +1,65 @@
+{
+  "name": "وب‌سایت شخصی برنامه‌نویس",
+  "short_name": "برنامه‌نویس",
+  "description": "برنامه‌نویس بک‌اند متخصص در PHP و Laravel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "technology"],
+  "lang": "fa",
+  "dir": "rtl",
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "صفحه اصلی وب‌سایت"
+    },
+    {
+      "src": "/screenshots/screenshot2.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "نمایش موبایل"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "تماس با من",
+      "short_name": "تماس",
+      "description": "فرم تماس با من",
+      "url": "/#contact",
+      "icons": [{ "src": "/icons/contact-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "نمونه‌کارها",
+      "short_name": "پروژه‌ها",
+      "description": "مشاهده نمونه‌کارهای من",
+      "url": "/#projects",
+      "icons": [{ "src": "/icons/projects-icon.png", "sizes": "96x96" }]
+    }
+  ]
+}

@@ -1,25 +1,21 @@
-import type { Config } from "tailwindcss"
+/** @type {import('tailwindcss').Config} */
+const defaultConfig = require("shadcn/ui/tailwind.config")
 
-const config = {
-  darkMode: ["class"],
+module.exports = {
+  ...defaultConfig,
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    ...defaultConfig.content,
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
     "*.{js,ts,jsx,tsx,mdx}",
   ],
-  prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
+    ...defaultConfig.theme,
     extend: {
+      ...defaultConfig.theme.extend,
       colors: {
+        ...defaultConfig.theme.extend.colors,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -55,27 +51,30 @@ const config = {
         },
       },
       borderRadius: {
+        ...defaultConfig.theme.extend.borderRadius,
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config
-
-export default config
+  plugins: [...defaultConfig.plugins, require("tailwindcss-animate")],
+  // Add purge options for production
+  purge: {
+    enabled: process.env.NODE_ENV === "production",
+    content: [
+      "./app/**/*.{js,ts,jsx,tsx}",
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+      "*.{js,ts,jsx,tsx,mdx}",
+    ],
+    options: {
+      safelist: [
+        // Add classes that are dynamically created and shouldn't be purged
+        /^animate-/,
+        /^bg-/,
+        /^text-/,
+      ],
+    },
+  },
+}

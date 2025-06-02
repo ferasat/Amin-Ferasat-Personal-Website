@@ -57,10 +57,6 @@
     @apply bg-background text-foreground;
     position: relative;
     overflow-x: hidden;
-  }
-
-  /* تنظیمات RTL */
-  body {
     text-align: right;
   }
 
@@ -326,12 +322,11 @@
 
 /* انیمیشن hover برای کارت‌ها */
 .card-hover {
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 /* انیمیشن برای دکمه‌ها */

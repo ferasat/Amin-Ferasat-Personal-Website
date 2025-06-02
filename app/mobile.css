@@ -1,0 +1,105 @@
+/* فایل CSS مخصوص موبایل */
+
+/* کاهش padding و margin در موبایل */
+@media (max-width: 768px) {
+  section {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  p {
+    font-size: 0.875rem !important;
+  }
+
+  /* کاهش اندازه کارت‌ها */
+  .card {
+    padding: 0.75rem !important;
+  }
+
+  /* بهبود فاصله‌گذاری عناصر */
+  .gap-4 {
+    gap: 0.5rem !important;
+  }
+
+  .gap-6 {
+    gap: 0.75rem !important;
+  }
+
+  .gap-8 {
+    gap: 1rem !important;
+  }
+
+  /* بهبود اندازه دکمه‌ها برای لمس */
+  button,
+  .button,
+  [role="button"] {
+    min-height: 2.5rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* افزایش اندازه آیکون‌ها برای لمس بهتر */
+  svg {
+    min-width: 1.25rem !important;
+    min-height: 1.25rem !important;
+  }
+}
+
+/* بهبود تجربه لمسی */
+@media (max-width: 768px) {
+  a,
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"] {
+    cursor: default !important; /* حذف cursor pointer در موبایل */
+    touch-action: manipulation; /* بهبود عملکرد لمس */
+  }
+
+  /* افزایش فاصله بین لینک‌ها برای جلوگیری از کلیک اشتباه */
+  nav a {
+    padding: 0.5rem 0.25rem !important;
+    margin: 0 0.25rem !important;
+  }
+
+  /* بهبود اسکرول */
+  * {
+    -webkit-overflow-scrolling: touch !important; /* اسکرول نرم در iOS */
+  }
+}
+
+/* کاهش انیمیشن‌ها در موبایل */
+@media (max-width: 768px) {
+  .animate-float,
+  .animate-pulse-glow,
+  .btn-animate::before {
+    animation: none !important;
+  }
+
+  .animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* بهبود فونت در موبایل */
+@media (max-width: 768px) {
+  body {
+    text-rendering: optimizeSpeed !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+}
